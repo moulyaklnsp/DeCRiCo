@@ -275,3 +275,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Built with ❤️ for transparent disaster relief • Ethereum Hackathon 2025**
+# DeCRiCo
+Decentralized Crisis Relief Coordination Platform 
