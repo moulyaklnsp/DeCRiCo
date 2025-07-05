@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 import { 
   Heart, 
   Shield, 
@@ -11,8 +10,7 @@ import {
   Star,
   Globe,
   Lock,
-  Zap,
-  Play
+  Zap
 } from 'lucide-react';
 import { Request } from '../types';
 import { supabase } from '../lib/supabase';
@@ -26,8 +24,7 @@ export const HomePage: React.FC = () => {
     totalUsers: 0,
     successRate: 0
   });
-  const { user, isAuthenticated } = useAuthStore();
-  const navigate = useNavigate();
+  const { user } = useAuthStore();
 
   useEffect(() => {
     fetchFeaturedRequests();
@@ -87,19 +84,6 @@ export const HomePage: React.FC = () => {
     }
   };
 
-  const handleGetStarted = () => {
-    if (isAuthenticated) {
-      navigate('/dashboard');
-    } else {
-      // Trigger auth modal from layout
-      window.dispatchEvent(new CustomEvent('openAuth'));
-    }
-  };
-
-  const handleBrowseRequests = () => {
-    navigate('/browse');
-  };
-
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -142,19 +126,13 @@ export const HomePage: React.FC = () => {
               transition={{ delay: 0.6, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
-              <button 
-                onClick={handleGetStarted}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-2"
-              >
+              <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-2">
                 <Heart className="w-5 h-5" />
-                <span>{isAuthenticated ? 'Go to Dashboard' : 'Get Started'}</span>
+                <span>Start Donating</span>
                 <ArrowRight className="w-5 h-5" />
               </button>
-              <button 
-                onClick={handleBrowseRequests}
-                className="border-2 border-white/30 hover:border-white/50 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 backdrop-blur-sm hover:bg-white/10"
-              >
-                Browse Requests
+              <button className="border-2 border-white/30 hover:border-white/50 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 backdrop-blur-sm hover:bg-white/10">
+                Learn More
               </button>
             </motion.div>
           </motion.div>
@@ -166,18 +144,9 @@ export const HomePage: React.FC = () => {
         <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-pink-500/20 rounded-full blur-xl animate-pulse delay-500"></div>
       </section>
 
-      {/* Live Stats Section */}
+      {/* Stats Section */}
       <section className="py-16 bg-white/80 backdrop-blur-lg">
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Live Platform Statistics</h2>
-            <p className="text-gray-600">Real-time data from our blockchain-powered platform</p>
-          </motion.div>
-          
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -242,73 +211,8 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              How DeCriCo Works
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our platform uses blockchain technology to ensure transparent, secure, and direct aid distribution
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-center"
-            >
-              <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-2xl font-bold">
-                1
-              </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">Submit Request</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Crisis victims submit aid requests with documentation and wallet address for direct fund reception
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-center"
-            >
-              <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-2xl font-bold">
-                2
-              </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">Community Verification</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Trusted verifiers review and vote on requests to ensure legitimacy and prevent fraud
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-center"
-            >
-              <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-2xl font-bold">
-                3
-              </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">Direct Donations</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Approved requests receive direct blockchain donations, ensuring 100% of funds reach recipients
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
       {/* Features Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -319,7 +223,8 @@ export const HomePage: React.FC = () => {
               Why Choose DeCriCo?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Revolutionary features that make humanitarian aid more effective and transparent
+              Our platform combines cutting-edge blockchain technology with humanitarian aid 
+              to create the most transparent and efficient donation system ever built.
             </p>
           </motion.div>
 
@@ -377,7 +282,7 @@ export const HomePage: React.FC = () => {
 
       {/* Featured Requests */}
       {featuredRequests.length > 0 && (
-        <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+        <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -400,8 +305,7 @@ export const HomePage: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer"
-                  onClick={() => navigate(`/request/${request.id}`)}
+                  className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
                 >
                   <div className="mb-4">
                     <h3 className="text-xl font-bold text-gray-800 mb-2">{request.title}</h3>
@@ -443,16 +347,6 @@ export const HomePage: React.FC = () => {
                 </motion.div>
               ))}
             </div>
-
-            <div className="text-center mt-12">
-              <button
-                onClick={handleBrowseRequests}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-200 font-semibold text-lg flex items-center space-x-2 mx-auto"
-              >
-                <span>View All Requests</span>
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </div>
           </div>
         </section>
       )}
@@ -473,17 +367,11 @@ export const HomePage: React.FC = () => {
               transparent, efficient aid to crisis situations worldwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                onClick={handleGetStarted}
-                className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-              >
-                {isAuthenticated ? 'Go to Dashboard' : 'Start Donating Now'}
+              <button className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                Start Donating Now
               </button>
-              <button 
-                onClick={() => navigate('/about')}
-                className="border-2 border-white/30 hover:border-white/50 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 backdrop-blur-sm hover:bg-white/10"
-              >
-                Learn More
+              <button className="border-2 border-white/30 hover:border-white/50 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 backdrop-blur-sm hover:bg-white/10">
+                Create Request
               </button>
             </div>
           </motion.div>
